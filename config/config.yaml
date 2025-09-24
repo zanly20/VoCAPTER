@@ -1,0 +1,35 @@
+batch_size: 1
+res: 5e-3
+max_epoch: 2
+num_points: 1024
+
+use_normal: True
+regress_right: False
+regress_forward: True
+tr_num_bins: 32
+rot_num_bins: 36
+opt: 
+  weight_decay: 1e-4
+  lr: 1e-3  # 1e-3
+up_sym: False
+right_sym: False
+z_right: False
+cls_bins: True
+
+defaults:
+  - _self_  # 表示当前配置文件本身：这个地方似乎可以用来组合别的配置文件进来
+  - category: dishwasher # 'laptop', 'eyeglasses', 'dishwasher', 'drawer', 'scissors'
+ 
+# centric: base   # base   child   seg   seg_random
+root_dir: /yourpath
+ckpdir: checkpoint
+# workdir: ${root_dir}/${ckpdir}/${category}/${centric}
+knn: 60
+
+
+hydra:
+  run:  
+    dir: ${root_dir}/${ckpdir}/${category}  # 存权重的地方，指定运行时的输出目录。
+  sweep:  # 用于指定超参数搜索时的输出目录和子目录。
+    dir: ${root_dir}/${ckpdir}
+    subdir: ${category}
